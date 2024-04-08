@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo de Adivinhação</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #feedback {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<h1>Jogo de Adivinhação</h1>
+<p>Tente adivinhar o número entre 0 e 100:</p>
+<input type="number" id="tentativa">
+<button id="jogar">Jogar</button>
+<p id="feedback"></p>
+
+<script>
+    // Gerando um número aleatório entre 0 e 100
+    var numeroRandomico = Math.floor(Math.random() * 101);
+
+    // Obtendo elementos da interface do usuário
+    var tentativaInput = document.getElementById("tentativa");
+    var jogarBotao = document.getElementById("jogar");
+    var feedbackParagrafo = document.getElementById("feedback");
+
+    // Adicionando um evento de clique ao botão 'Jogar'
+    jogarBotao.addEventListener("click", function() {
+        // Obtendo a tentativa do usuário
+        var tentativa = parseInt(tentativaInput.value);
+
+        // Verificando se é um número válido
+        if (isNaN(tentativa) || tentativa < 0 || tentativa > 100) {
+            feedbackParagrafo.textContent = "Por favor, insira um número válido entre 0 e 100.";
+            feedbackParagrafo.style.color = "red";
+            return;
+        }
+
+        // Comparando a tentativa com o número aleatório
+        if (tentativa === numeroRandomico) {
+            feedbackParagrafo.textContent = "Parabéns! Você acertou!";
+            feedbackParagrafo.style.color = "green";
+            jogarBotao.style.backgroundColor = "green"; // Alterando a cor do botão para verde
+            jogarBotao.disabled = true; // Desativando o botão após o acerto
+        } else {
+            if (tentativa < numeroRandomico) {
+                feedbackParagrafo.textContent = "Tente um número maior.";
+            } else {
+                feedbackParagrafo.textContent = "Tente um número menor.";
+            }
+            feedbackParagrafo.style.color = "red";
+        }
+    });
+
+    // Função para reiniciar o jogo
+    function reiniciarJogo() {
+        // Gerando um novo número aleatório
+        numeroRandomico = Math.floor(Math.random() * 101);
+        // Resetando a interface do usuário
+        feedbackParagrafo.textContent = "";
+        tentativaInput.value = "";
+        tentativaInput.focus();
+        jogarBotao.style.backgroundColor = ""; // Retornando a cor padrão do botão
+        jogarBotao.disabled = false; // Habilitando o botão novamente
+    }
+</script>
+</body>
+</html>
